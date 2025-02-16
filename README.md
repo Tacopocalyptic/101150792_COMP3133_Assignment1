@@ -14,7 +14,7 @@ Endpoints include:
 - Search employee by ID
 - Search Employee by designation or department
 
-To run, first navigate to the GraphQL folder and run `npm install`.
+To run, first navigate to the GraphQL folder and run `npm install`. After Installation, run `nodemon server.js` to run the backend locally. (This requires nodemon to be installed)
 With Docker Desktop running and from the root folder of this repository, Run the command located in the docker-compose.yml file to launch a database with appropriate setup.
 
 Current features: Validation for all fields in the User and Employee models is in place, so that data is consistent and appropriate. Password encryption is applied before saving user passwords to the database. User login returns a JWT with an expiry of 30 minutes
