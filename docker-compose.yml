@@ -1,0 +1,56 @@
+#---------------------------------------
+# 1. docker-compose -p comp3133-assign1 -f docker-compose.yml up -d
+#   -- This command will start containers in detached mode without rebuilding the images (if they already exist)
+#
+# 2. docker-compose -p comp3133-assign1 -f docker-compose.yml up -d --build
+#   -- This command forces the image to rebuild before starting the container. Run after changes.
+#---------------------------------------
+
+services:
+
+  # graphql-backend:
+  #   container_name: graphql-backend
+  #   build:
+  #     context: ./graphql-backend
+  #     dockerfile: ./DockerFile
+  #   ports:
+  #     - "5000:5000"
+  #   depends_on:
+  #     - mongodb
+  #   environment:
+  #     DB_URL: mongodb://mongodb:27017/comp3133__101150792_assigment1
+  #   networks:
+  #     - my-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-comp3133 # must be unique
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=comp3133__101150792_assigment1
+    volumes: # persistent storage
+      - ./data:/data/db
+    #restart: unless-stopped    # keep trying to start until it works
+    #command: mongod -auth      # enforces authorization
+    networks:
+      - my-network
+
+  mongo-express:
+    image: mongo-express:latest
+    ports:
+      - "8083:8081"
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    container_name: mongo-express-comp3133
+    depends_on:
+      - mongodb
+    networks:
+      - my-network
+
+volumes:
+  data:
+
+networks:
+  my-network:
+    driver: bridge
